@@ -1,0 +1,47 @@
+class RandomizedCollection {
+    int[] array = new int[20000];
+    Random rand = new Random();
+    Map<Integer, Set<Integer>> hash = new HashMap<>();
+    int last = -1;
+    public RandomizedCollection() {
+
+    }
+    
+    public boolean insert(int val) {
+        boolean pre = false;
+        last++;
+        array[last] = val;
+        if(!hash.containsKey(val)){
+            pre = true;
+            hash.put(val, new HashSet<>());
+        }
+        hash.get(val).add(last);
+        return pre;
+    }
+    
+    public boolean remove(int val) {
+        if(hash.containsKey(val)){
+            Set<Integer> index = hash.get(val);
+            if(index.size() == 1){
+                hash.remove(val);
+            }
+            Integer ind = index.iterator().next();
+            index.remove(ind);
+            if(last != ind){
+                array[ind] = array[last];
+                index = hash.get(array[last]);
+                index.remove(last);
+                index.add(ind);
+            }
+            last--;
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    public int getRandom() {
+        return array[rand.nextInt(last + 1)];
+    }
+}
