@@ -1,0 +1,17 @@
+class Solution {
+    public int findMaxValueOfEquation(int[][] points, int k) {
+        int max_value = Integer.MIN_VALUE;
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> b[0] - a[0]); // Max-heap based on yi - xi
+        
+        for (int[] point : points) {
+            while (!pq.isEmpty() && point[0] - pq.peek()[1] > k) {
+                pq.remove();
+            }
+            if (!pq.isEmpty()) {
+                max_value = Math.max(max_value, point[1] + point[0] + pq.peek()[0]);
+            }
+            pq.add(new int[] {point[1] - point[0], point[0]});
+        }
+        return max_value;
+    }
+}
