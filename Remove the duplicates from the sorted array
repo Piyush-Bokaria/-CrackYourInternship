@@ -1,4 +1,4 @@
-//Day 2 of #crackYourInternship
+//Day 2 of #CrackYourInternship
 class Solution {
     public int removeDuplicates(int[] nums) {
         int n = nums.length - 1;
