@@ -1,4 +1,5 @@
 //Day 1 of #CrackYourInternship
+
 class RandomizedCollection {
     int[] array = new int[20000];
     Random rand = new Random();
