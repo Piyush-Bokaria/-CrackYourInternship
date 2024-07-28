@@ -1,4 +1,4 @@
-//Day2 Of #CrackYourInternship
+//Day 2 Of #CrackYourInternship
 class Solution {
     public int maxProfit(int[] prices) {
         if(prices.length < 2){
