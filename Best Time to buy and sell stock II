@@ -1,0 +1,17 @@
+//Day2 Of #CrackYourInternship
+class Solution {
+    public int maxProfit(int[] prices) {
+        if(prices.length < 2){
+            return 0;
+        }   
+        int prev = prices[0];
+        int profit = 0;
+        for(int price : prices){
+            if(price > prev){
+                profit += price - prev;
+            }
+            prev = price;
+        }
+        return profit;
+    }
+}
