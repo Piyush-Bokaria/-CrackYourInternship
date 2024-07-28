@@ -1,4 +1,4 @@
-//Day 1 of #CrackYour Internship
+//Day 1 of #CrackYourInternship
 class Solution {
     public void sortColors(int[] nums) {
         int[] arr = new int[3];
