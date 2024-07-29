@@ -1,0 +1,17 @@
+#Day 3 of #CrackYourInternship
+class Solution {
+    public List<Integer> findDuplicates(int[] nums) {
+        int n = nums.length;
+        int[] arr = new int[n + 1];
+        for(int i = 0;i < n;i++){
+            arr[nums[i]]++;
+        }
+        List<Integer> res = new ArrayList<>();
+        for(int i = 0;i <= n;i++){
+            if(arr[i] > 1){
+                res.add(i);
+            }
+        }
+        return res;
+    }
+}
