@@ -1,0 +1,16 @@
+//Day 3 of #CrackYourInternship
+class Solution {
+    public int majorityElement(int[] nums) {
+        return major(nums,0, nums[0]);
+    }
+
+    private static int major(int[] nums, int start, int target) {
+        int count = 0;
+        for (int i = start; i < nums.length; i++) {
+            if (nums[i] == target) count++;
+            else count--;
+            if (count == -1) return major(nums, i, nums[i]);
+        }
+        return target;
+    }
+}
