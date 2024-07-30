@@ -1,0 +1,17 @@
+//Day 4 of #CrackYourInternship
+class Solution
+{
+    public long findMinDiff (ArrayList<Integer> a, int n, int m)
+    {
+        // your code here
+        if(m > n){
+            return -1;
+        }
+        Collections.sort(a);
+        long res = a.get(m - 1) - a.get(0);
+        for(int i = 1;i < n - m + 1;i++){
+            res = Math.min(res, a.get(i + m - 1) - a.get(i));
+        }
+        return res;
+    }
+}
