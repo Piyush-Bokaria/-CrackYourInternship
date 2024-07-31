@@ -1,0 +1,14 @@
+//Day 5 of #CrackYourInternship
+class Solution {
+    public boolean canJump(int[] nums) {
+        int n = nums.length - 1;
+        int i = nums.length - 2;
+        while(i >= 0){
+            if(i + nums[i] >= n){
+                n = i;
+            }
+            i--;
+        }
+        return n == 0;
+    }
+}
