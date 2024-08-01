@@ -1,0 +1,30 @@
+//Day 6 of #CrackYourInterview
+class Solution {
+    static ArrayList<ArrayList<Integer>> perms(ArrayList<Integer> arr, int n){
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        if(n == 1){
+            ArrayList<Integer> curr = new ArrayList<>();
+            curr.add(arr.get(0));
+            res.add(curr);
+            return res;
+        }
+        for(int i = 0;i < n;i++){
+            if(i > 0 && arr.get(i) == arr.get(i - 1)){
+                continue;
+            }
+            int removed = arr.remove(i);
+            ArrayList<ArrayList<Integer>> next = uniquePerms(arr, n - 1);
+            for(int j = 0;j < next.size();j++){
+                next.get(j).add(0, removed);
+                res.add(next.get(j));
+            }
+            arr.add(i, removed);
+        }
+        return res;
+    }
+    static ArrayList<ArrayList<Integer>> uniquePerms(ArrayList<Integer> arr , int n) {
+        // code here
+        Collections.sort(arr);
+        return perms(arr, n);
+    }
+};
