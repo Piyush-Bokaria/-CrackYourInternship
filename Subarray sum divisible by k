@@ -1,0 +1,20 @@
+//Day 8 of #CrackYourInternship
+class Solution {
+    public int subarraysDivByK(int[] nums, int k) {
+        int res = 0;
+        int prev = 0;
+        Map<Integer, Integer> hash = new HashMap<>();
+        hash.put(0, 1);
+        for(int i = 0;i < nums.length;i++){
+            prev = (prev + nums[i] % k + k)%k;
+            if(hash.containsKey(prev)){
+                res += hash.get(prev);
+                hash.put(prev, hash.get(prev) + 1);
+            }
+            else{
+                hash.put(prev, 1);
+            }
+        }
+        return res;
+    }
+}
