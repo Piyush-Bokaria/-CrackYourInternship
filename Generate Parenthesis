@@ -1,0 +1,21 @@
+//Day 9 of #CrackYourInternship
+class Solution {
+    List<String> result;
+    public void backtrack(int start, int close, String s, int n){
+        if(start == close && start == n){
+            result.add(s);
+            return;
+        }
+        if(start < n){
+            backtrack(start + 1, close, s + "(", n);
+        }
+        if(start > close){
+            backtrack(start, close + 1, s + ")", n);
+        }
+    }
+    public List<String> generateParenthesis(int n) {
+        result = new ArrayList<>();
+        backtrack(0, 0, "", n);
+        return result;
+    }
+}
