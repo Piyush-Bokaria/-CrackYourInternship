@@ -1,0 +1,28 @@
+//Day 9 of #CrackYourInternship
+class Solution {
+    public String simplifyPath(String path) {
+        List<String> res = new ArrayList<>();
+        String[] pathh = path.split("/");
+        for(int i = 0;i < pathh.length;i++){
+            if(pathh[i].equals("") || pathh[i].equals("/") || pathh[i].equals(".")){
+                continue;
+            }
+            else if(res.size() > 0 && pathh[i].equals("..")){
+                res.remove(res.size() - 1);
+                res.remove(res.size() - 1);
+            }
+            else if(pathh[i].equals("..")){
+                continue;
+            }
+            else{
+                res.add("/");
+                res.add(pathh[i]);
+            }
+        }
+        if(res.isEmpty()){
+            res.add("/");
+        }
+        String listString = res.stream().map(Object::toString).collect(Collectors.joining(""));
+        return listString;
+    }
+}
