@@ -1,4 +1,4 @@
-//Day 8 of #CrackYourInternship
+//Day 11 of #CrackYourInternship
 class Solution {
     public int subarraysDivByK(int[] nums, int k) {
         int res = 0;
