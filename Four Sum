@@ -1,0 +1,36 @@
+//Day 11 of #CrackYourInternship
+class Solution {
+    Set<List<Integer>> res;
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        res = new HashSet<>();
+        Arrays.sort(nums);
+        int n = nums.length;
+        for(int j = 0;j < n;j++){
+            int m = nums[j];
+            for(int i = j + 1;i < n;i++){
+                int pivot = nums[i];
+                int left = i + 1;
+                int right = n - 1;
+                while(left < right){
+                    long sum = (long) pivot + (long) nums[left] + (long) nums[right] + (long) m;
+                    if(sum == (long) target){
+                        List<Integer> curr = Arrays.asList(m, pivot, nums[left], nums[right]);
+                        Collections.sort(curr);
+                        res.add(curr);
+                        left++;
+                        while(left < right && nums[left] == nums[left - 1]){
+                            left++;
+                        }
+                    }
+                    else if(sum > (long) target){
+                        right--;
+                    }
+                    else{
+                        left++;
+                    }
+                }
+            }
+        }
+        return new ArrayList<>(res);
+    }
+}
