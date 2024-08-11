@@ -1,0 +1,20 @@
+//Day 16 of #CrackYourInternship
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> hash = new HashMap<>();
+        for(String s : strs){
+            char[] curr = s.toCharArray();
+            Arrays.sort(curr);
+            String c = new String(curr);
+            if(!hash.containsKey(c)){
+                hash.put(c, new ArrayList<>());
+            }
+            hash.get(c).add(s);
+        }
+        List<List<String>> res = new ArrayList<>();
+        for(Map.Entry<String, List<String>> e : hash.entrySet()){
+            res.add(e.getValue());
+        }
+        return res;
+    }
+}
