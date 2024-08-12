@@ -1,0 +1,29 @@
+//Day 17 of #CrackYourInternship
+class Solution
+{
+    int[][] dp;
+    public int helper(int curr, int spaces, int k, int[] arr){
+        if(curr >= arr.length){
+            return 0;
+        }
+        if(dp[curr][spaces] != -1){
+            return dp[curr][spaces];
+        }
+        int a = Integer.MAX_VALUE;
+        int newspaces = spaces + 1 + arr[curr];
+        if(newspaces <= k){
+            a = Math.min(a, helper(curr + 1, newspaces, k, arr));
+        }
+        int b = helper(curr + 1, arr[curr], k, arr) + (k - spaces) * (k - spaces);
+        return dp[curr][spaces] = Math.min(a, b);
+    }
+    public int solveWordWrap (int[] nums, int k)
+    {
+        // Code here 
+        int n = nums.length;
+        dp = new int[n + 1][k + 1];
+        for (int[] row : dp) 
+            Arrays.fill(row, -1);
+        return helper(1, nums[0], k, nums);
+    }
+}
