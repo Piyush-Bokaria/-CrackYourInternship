@@ -1,0 +1,30 @@
+//Day 22 of #CrackYourInternship
+class Solution
+{
+    public void swap(int[] nums, int i, int j){
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+    //Function to find the minimum number of swaps required to sort the array.
+    public int minSwaps(int nums[])
+    {
+        // Code here
+        int count = 0;
+        int n = nums.length;
+        Map<Integer, Integer> hash = new HashMap<>();
+        for(int i = 0;i < n;i++){
+            hash.put(nums[i], i);
+        }
+        Arrays.sort(nums);
+        for(int i = 0;i < n;i++){
+            if(i == hash.get(nums[i])){
+                continue;
+            }
+            count++;
+            swap(nums, i, hash.get(nums[i]));
+            i--;
+        }
+        return count;
+    }
+}
