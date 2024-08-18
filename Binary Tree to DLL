@@ -1,0 +1,29 @@
+//Day 23 of #CrackYourInternship
+class Solution
+{
+    List<Integer> list ;
+    private void inorder(Node root){
+        if(root == null){
+            return;
+        }
+        inorder(root.left);
+        list.add(root.data);
+        inorder(root.right);
+    }
+    //Function to convert binary tree to doubly linked list and return it.
+    Node bToDLL(Node root)
+    {
+	    //  Your code here
+	    list = new ArrayList<>();
+	    inorder(root);
+	    Node head = new Node(list.get(0));
+	    Node curr = head;
+	    for(int i = 1;i < list.size();i++){
+	        Node n = new Node(list.get(i));
+	        n.left = curr;
+	        curr.right = n;
+	        curr = curr.right;
+	    }
+	    return head;
+    }
+}
