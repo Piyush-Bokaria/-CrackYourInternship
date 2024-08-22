@@ -1,0 +1,25 @@
+//Day 27 of #CrackYourInternship
+class Solution {
+    int res;
+    public int minCameraCover(TreeNode root) {
+        res = 0;
+        return dfs(root) == 0 ? res + 1 : res;
+    }
+    private int dfs(TreeNode root){
+        if(root == null){
+            return 1;
+        }
+        int left = dfs(root.left);
+        int right = dfs(root.right);
+        if(left == 0 || right == 0){
+            res++;
+            return 2;
+        }
+        else if(left == 2 || right == 2){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+}
