@@ -1,0 +1,36 @@
+//Day 27 of #CrackYourInternship
+class Solution {
+    private Map<Integer, TreeMap<Integer, PriorityQueue<Integer>>> hash;
+    
+    private void dfs(TreeNode root, int row, int col) {
+        if (root == null) return;
+
+        hash.putIfAbsent(col, new TreeMap<>());
+        
+        hash.get(col).putIfAbsent(row, new PriorityQueue<>());
+        
+        hash.get(col).get(row).offer(root.val);
+
+        dfs(root.left, row + 1, col - 1);
+        dfs(root.right, row + 1, col + 1);
+    }
+
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        hash = new HashMap<>();
+        dfs(root, 0, 0);
+        
+        List<List<Integer>> result = new ArrayList<>();
+
+        for (int col : new TreeSet<>(hash.keySet())) {
+            List<Integer> colValues = new ArrayList<>();
+
+            for (Map.Entry<Integer, PriorityQueue<Integer>> entry : hash.get(col).entrySet()) {
+                while (!entry.getValue().isEmpty()) {
+                    colValues.add(entry.getValue().poll());
+                }
+            }
+            result.add(colValues);
+        }
+        return result;
+    }
+}
