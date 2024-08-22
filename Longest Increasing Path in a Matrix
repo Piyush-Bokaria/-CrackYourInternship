@@ -1,0 +1,36 @@
+//Day 27 of #CrackYourInternship
+class Solution {
+    private int helper(int row, int col,  int[][] matrix, int[][] dp, int prev){
+        if(row == matrix.length || col == matrix[0].length || row == -1 || col == -1 || matrix[row][col] <= prev){
+            return 0;
+        }
+        if(dp[row][col] != -1){
+            return dp[row][col];
+        }
+        int a = 1 + helper(row + 1, col, matrix, dp, matrix[row][col]);
+        int b = 1 + helper(row, col + 1, matrix, dp, matrix[row][col]);
+        int c = 1 + helper(row - 1, col,  matrix, dp, matrix[row][col]);
+        int d = 1 + helper(row, col - 1, matrix, dp, matrix[row][col]);
+        return dp[row][col] = Math.max(a, Math.max(b, Math.max(c, d)));
+    }
+    public int longestIncreasingPath(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int[][] dp = new int[m][n];
+        for(int i = 0;i < m;i++){
+            Arrays.fill(dp[i], -1);
+        }
+        int result = 0;
+        for(int i = 0;i < m;i++){
+            for(int j = 0;j < n;j++){
+                if(dp[i][j] == -1){
+                    result = Math.max(result, helper(i, j, matrix, dp, -1));
+                }
+                else{
+                    result = Math.max(result, dp[i][j]);
+                }
+            }
+        }
+        return result;
+    }
+}
