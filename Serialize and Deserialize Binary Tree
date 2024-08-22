@@ -1,0 +1,34 @@
+//Day 27 of #CrackYourInternship
+public class Codec {
+
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        if(root == null){
+            return "null";
+        }
+        String left = serialize(root.left);
+        String right = serialize(root.right);
+        String res = Integer.toString(root.val) + "," + left + "," + right;
+        return res;
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        String[] da = data.split(",");
+        Queue<String> q = new LinkedList<>();
+        for(String s : da){
+            q.offer(s);
+        }
+        return traversal(q);
+    }
+    private TreeNode traversal(Queue<String> q){
+        String next = q.poll();
+        if(next.equals("null")){
+            return null;
+        }
+        TreeNode node = new TreeNode(Integer.parseInt(next));
+        node.left = traversal(q);
+        node.right = traversal(q);
+        return node;
+    }
+}
