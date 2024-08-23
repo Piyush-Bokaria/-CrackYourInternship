@@ -1,0 +1,48 @@
+//Day 28 of #CrackYourInternship
+class Solution {
+    private int time = 0;
+
+    public List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
+
+        int[] discovery = new int[n];
+        int[] low = new int[n];
+        List<Integer>[] graph = new ArrayList[n];
+        List<List<Integer>> result = new ArrayList<>();
+
+        Arrays.fill(discovery, -1); 
+
+        for (int i = 0; i < n; i++) {
+            graph[i] = new ArrayList<>();
+        }
+        for (List<Integer> conn : connections) {
+            int u = conn.get(0);
+            int v = conn.get(1);
+            graph[u].add(v);
+            graph[v].add(u);
+        }
+
+        dfs(0, -1, discovery, low, graph, result);
+
+        return result;
+    }
+
+    private void dfs(int u, int parent, int[] discovery, int[] low, List<Integer>[] graph, List<List<Integer>> result) {
+        discovery[u] = low[u] = ++time; 
+        for (int v : graph[u]) {
+            if (v == parent) {
+                continue;  
+            }
+            if (discovery[v] == -1) {
+                dfs(v, u, discovery, low, graph, result);
+                low[u] = Math.min(low[u], low[v]); 
+                if (low[v] > discovery[u]) {
+                    
+                    result.add(Arrays.asList(u, v));
+                }
+            } else {
+
+                low[u] = Math.min(low[u], discovery[v]);
+            }
+        }
+    }
+}
