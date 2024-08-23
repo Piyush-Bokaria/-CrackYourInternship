@@ -1,0 +1,56 @@
+//Day 28 of #CrackYourInternship
+class Solution {
+    int result;
+    int res;
+    private int dfs(int[][] grid, int row, int col, int index){
+        if(row == grid.length || col == grid[0].length || row == -1 || col == -1 || grid[row][col] != 1){
+            return 0;
+        }
+        grid[row][col] = index;
+        int left = dfs(grid, row, col - 1, index);
+        int right = dfs(grid, row, col + 1, index);
+        int up = dfs(grid, row - 1, col, index);
+        int down = dfs(grid, row + 1, col, index);
+        return 1 + left + right + up + down;
+    }
+    public int largestIsland(int[][] grid) {
+        int n = grid[0].length;
+        int[] colors = new int[n * n + 2];
+        int index = 2;
+        for(int i = 0;i < n;i++){
+            for(int j = 0;j < n;j++){
+                if(grid[i][j] == 1){
+                    colors[index] = dfs(grid, i, j, index++);
+                }
+            }
+        }
+        boolean haszero = false;
+        int result = 0;
+        for(int i = 0;i < n;i++){
+            for(int j = 0;j < n;j++){
+                if(grid[i][j] == 0){
+                    haszero = true;
+                    Set<Integer> curr = new HashSet<>();
+                    if(i > 0){
+                        curr.add(grid[i - 1][j]);
+                    }
+                    if(j > 0){
+                        curr.add(grid[i][j - 1]);
+                    }
+                    if(i < n - 1){
+                        curr.add(grid[i + 1][j]);
+                    }
+                    if(j < n - 1){
+                        curr.add(grid[i][j + 1]);
+                    }
+                    int area = 1;
+                    for(int k : curr){
+                        area += colors[k];
+                    }
+                    result = Math.max(area, result);
+                }
+            }
+        }
+        return haszero ? result : n *  n;
+    }
+}
