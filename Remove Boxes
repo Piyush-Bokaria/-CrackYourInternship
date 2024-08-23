@@ -1,0 +1,35 @@
+//Day 28 of #CrackYourInternship
+class Solution {
+    private Map<String, Integer> memo;
+
+    public int removeBoxes(int[] boxes) {
+        memo = new HashMap<>();
+        return dp(boxes, 0, boxes.length - 1, 0);
+    }
+
+    private int dp(int[] boxes, int l, int r, int count) {
+        if (l > r) return 0;
+        
+        String key = l + "," + r + "," + count;
+        if (memo.containsKey(key)) return memo.get(key);
+
+        // Increase count while boxes[l] is the same as the next box
+        while (l + 1 <= r && boxes[l] == boxes[l + 1]) {
+            l++;
+            count++;
+        }
+
+        // Option 1: Remove the first block
+        int result = (count + 1) * (count + 1) + dp(boxes, l + 1, r, 0);
+
+        // Option 2: Try merging with other parts of the array
+        for (int m = l + 1; m <= r; m++) {
+            if (boxes[m] == boxes[l]) {
+                result = Math.max(result, dp(boxes, m, r, count + 1) + dp(boxes, l + 1, m - 1, 0));
+            }
+        }
+
+        memo.put(key, result);
+        return result;
+    }
+}
