@@ -1,0 +1,61 @@
+//Day 30 of #CrackYourInternship
+class Solution {
+    List<List<Integer>> result;
+    
+    private boolean ispalindrome(String s) {
+        int i = 0, j = s.length() - 1;
+        while (i < j) {
+            if (s.charAt(i++) != s.charAt(j--)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public List<List<Integer>> palindromePairs(String[] words) {
+        int n = words.length;
+        result = new ArrayList<>();
+        Map<String, Integer> indexes = new HashMap<>();
+        
+        for (int i = 0; i < n; i++) {
+            indexes.put(words[i], i);
+        }
+        
+        for (int i = 0; i < n; i++) {
+            String curr = words[i];
+            int currLen = curr.length();
+
+            if (currLen == 0) continue;
+            if (indexes.containsKey("") && ispalindrome(curr)) {
+                result.add(Arrays.asList(i, indexes.get("")));
+                result.add(Arrays.asList(indexes.get(""), i));
+            }
+            
+            String reverseCurr = new StringBuilder(curr).reverse().toString();
+            if (indexes.containsKey(reverseCurr) && indexes.get(reverseCurr) != i) {
+                result.add(Arrays.asList(i, indexes.get(reverseCurr)));
+            }
+            
+            for (int j = 1; j < currLen; j++) {
+                String left = curr.substring(0, j);
+                String right = curr.substring(j);
+                
+                if (ispalindrome(left)) {
+                    String rightRev = new StringBuilder(right).reverse().toString();
+                    if (indexes.containsKey(rightRev) && indexes.get(rightRev) != i) {
+                        result.add(Arrays.asList(indexes.get(rightRev), i));
+                    }
+                }
+                
+                if (ispalindrome(right)) {
+                    String leftRev = new StringBuilder(left).reverse().toString();
+                    if (indexes.containsKey(leftRev) && indexes.get(leftRev) != i) {
+                        result.add(Arrays.asList(i, indexes.get(leftRev)));
+                    }
+                }
+            }
+        }
+        
+        return result;
+    }
+}
