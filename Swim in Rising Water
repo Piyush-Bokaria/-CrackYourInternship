@@ -1,0 +1,46 @@
+//Day 31 of #CrackYourInternship
+class Solution {
+    private final int[][] dir = new int[][] {{-1, 0}, {0, -1}, {1, 0}, {0, 1}}; 
+    public int swimInWater(int[][] grid) {
+        int n = grid.length;
+        
+        boolean[][] visited = new boolean[n][n];
+        PriorityQueue<Tile> pq = new PriorityQueue<>((a, b) -> a.time - b.time);
+        pq.add(new Tile(0, 0, grid[0][0]));
+
+        int result = grid[0][0];
+        visited[0][0] = true;
+
+        while(!pq.isEmpty()){
+            Tile curr = pq.poll();
+            result = Math.max(result, curr.time);
+
+            if(curr.x == n - 1 && curr.y == n - 1){
+                break;
+            }
+
+            for(int[] d : dir){
+                int newx = curr.x + d[0];
+                int newy = curr.y + d[1];
+                if(newx < 0 || newy < 0 || newx == n || newy == n || visited[newx][newy]){
+                    continue;
+                }
+
+                pq.offer(new Tile(newx, newy, grid[newx][newy]));
+                visited[newx][newy] = true;
+            }
+        }
+        return result;
+    }
+}
+class Tile {
+    public int x;
+    public int y;
+    public int time;
+
+    public Tile(int x, int y, int time){
+        this.x = x;
+        this.y = y;
+        this.time = time;
+    }
+}
