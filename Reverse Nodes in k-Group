@@ -1,0 +1,26 @@
+//Day 39 of #CrackYourInternship
+class Solution:
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        dummy=ListNode(-1,head)
+        leftprev,curr,nex=dummy,head,head
+        count=0
+        while curr:
+            count+=1
+            curr=curr.next
+        curr=head
+        final=count//k
+        for j in range(final):
+            while nex and count<k:
+                nex=nex.next
+                count+=1
+            prev=None
+            for i in range(k):
+                t=curr.next
+                curr.next=prev
+                prev,curr=curr,t
+            temp=leftprev.next
+            leftprev.next.next=t
+            leftprev.next=prev
+            leftprev=temp
+            count=0
+        return dummy.next
