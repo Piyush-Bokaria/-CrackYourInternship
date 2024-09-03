@@ -1,0 +1,60 @@
+//Day 39 of #CrackYourInternship
+class Solution {
+    Map<Character, Set<Character>> graph;
+    private boolean dfs(char c, Map<Character, Boolean> visited, List<Character> order){
+        if(visited.containsKey(c)){
+            return visited.get(c);
+        }
+        visited.put(c, true);
+        for(char ch : graph.get(c)){
+            if(dfs(ch, visited, order)){
+                return true;
+            }
+        }
+        visited.put(c, false);
+        order.add(c);
+        return false;
+    }
+    private String helper(List<Character> arr){
+        StringBuilder res = new StringBuilder();
+        for(char c : arr){
+            res.append(c);
+        }
+        return res.reverse().toString();
+    }
+    public String findOrder(String[] dict, int n, int k) {
+        // Write your code here
+        graph = new HashMap<>();
+        for(String s : dict){
+            for(char c : s.toCharArray()){
+                graph.putIfAbsent(c, new HashSet<>());
+            }
+        }
+        for(int i = 0;i < n - 1;i++){
+            String word1 = dict[i];
+            String word2 = dict[i + 1];
+            
+            int m = Math.min(word1.length(), word2.length());
+            if(word1.length() > word2.length() && word1.substring(0, m).equals(word2.substring(0, m))){
+                return "";
+            }
+            for(int j = 0;j < m;j++){
+                if(word1.charAt(j) != word2.charAt(j)){
+                    graph.get(word1.charAt(j)).add(word2.charAt(j));
+                    break;
+                }
+            }
+        }
+        Map<Character, Boolean> visited = new HashMap<>();
+        List<Character> order = new ArrayList<>();
+        for(char c : graph.keySet()){
+            if(!visited.containsKey(c)){
+                if(dfs(c, visited, order)){
+                    return "";
+                }
+            }
+            
+        }
+        return helper(order);
+    }
+}
