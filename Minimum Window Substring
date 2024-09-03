@@ -1,0 +1,25 @@
+//Day 39 of #CrackYourInternship
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        n=len(s)
+        m=len(t)
+        hasht=collections.Counter(t)
+        right=left=match=0
+        require=len(hasht)
+        hashs=collections.defaultdict(int)
+        final=(float('inf'),0,0)
+        while right<n:
+            cur=s[right]
+            hashs[cur]+=1
+            if cur in hasht and hasht[cur]==hashs[cur]:
+                match+=1
+            while left<=right and match==require:
+                to=s[left]
+                if right-left+1<final[0]:
+                    final=(right-left+1,left,right)
+                hashs[to]-=1
+                if to in hasht and hasht[to]>hashs[to]:
+                    match-=1
+                left+=1
+            right+=1
+        return '' if final[0]==float('inf') else s[final[1]:final[2]+1]
