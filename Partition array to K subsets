@@ -1,0 +1,41 @@
+//Day 39 of #CrackYourInternship
+class Solution
+{
+    private boolean rec(int sum, int n, int[] visited, int curr, int a[], int k){
+        if(k == 1){
+            return true;
+        }
+        if(curr > sum){
+            return false;
+        }
+        if(curr == sum){
+            return rec(sum, n, visited, 0, a, k - 1);
+        }
+        for(int i = 0;i < n;i++){
+            if(visited[i] != 1){
+                visited[i] = 1;
+                if(rec(sum, n, visited, curr + a[i], a, k)){
+                    return true;
+                }
+                visited[i] = 0;
+            }
+        }
+        return false;
+    }
+    public boolean isKPartitionPossible(int a[], int n, int k)
+    {
+	// Your code here	
+	    int sum = 0;
+	    for(int i = 0;i < n;i++){
+	        sum += a[i];
+	    }
+	    if(sum % k != 0){
+	        return false;
+	    }
+	    int[] visited = new int[n];
+	    Arrays.fill(visited, 0);
+	    
+	    sum /= k;
+	    return rec(sum, n, visited, 0, a, k);
+    }
+}
