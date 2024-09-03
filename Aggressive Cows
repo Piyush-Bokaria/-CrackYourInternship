@@ -1,0 +1,35 @@
+//Day 39 of #CrackYourInternship
+def can_place_cows(stalls, N, C, min_dist):
+    count = 1  
+    last_position = stalls[0]
+    
+    for i in range(1, N):
+        if stalls[i] - last_position >= min_dist:
+            count += 1
+            last_position = stalls[i]
+        if count == C:
+            return True
+    return False
+
+def largest_minimum_distance(stalls, N, C):
+    stalls.sort()
+    low = 1
+    high = stalls[-1] - stalls[0]
+    result = 0
+    
+    while low <= high:
+        mid = (low + high) // 2
+        if can_place_cows(stalls, N, C, mid):
+            result = mid
+            low = mid + 1
+        else:
+            high = mid - 1
+            
+    return result
+
+# Input processing
+t = int(input())
+for _ in range(t):
+    N, C = map(int, input().split())
+    stalls = [int(input()) for _ in range(N)]
+    print(largest_minimum_distance(stalls, N, C))
