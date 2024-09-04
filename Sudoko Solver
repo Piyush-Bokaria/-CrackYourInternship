@@ -1,0 +1,64 @@
+//Day 40 of #CrackYourInternship
+class Solution {
+    int N = 9;
+
+    private boolean solveSudoku(char[][] grid, int row, int col) {
+        if (row == N) {
+            return true;
+        }
+
+        // Move to the next row if we are at the end of the current row
+        if (col == N) {
+            return solveSudoku(grid, row + 1, 0);
+        }
+
+        // If the current cell is already filled, move to the next column
+        if (grid[row][col] != '.') {
+            return solveSudoku(grid, row, col + 1);
+        }
+
+        for (char num = '1'; num <= '9'; num++) {
+            if (isSafe(grid, row, col, num)) {
+                grid[row][col] = num;
+
+                if (solveSudoku(grid, row, col + 1)) {
+                    return true;
+                }
+
+                grid[row][col] = '.'; // backtrack
+            }
+        }
+
+        return false; // trigger backtracking
+    }
+
+    private boolean isSafe(char[][] grid, int row, int col, char num) {
+        for (int x = 0; x < N; x++) {
+            if (grid[row][x] == num) {
+                return false;
+            }
+        }
+
+        for (int x = 0; x < N; x++) {
+            if (grid[x][col] == num) {
+                return false;
+            }
+        }
+
+        int startRow = row - row % 3;
+        int startCol = col - col % 3;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (grid[i + startRow][j + startCol] == num) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public void solveSudoku(char[][] board) {
+        solveSudoku(board, 0, 0);
+    }
+}
