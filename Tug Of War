@@ -1,0 +1,37 @@
+//Day 40 of #CrackYourInternship
+class Solution {
+    private static void helper(int i, int count, int sum, int total, int n, int[] arr, ArrayList<ArrayList<Integer>> result, int[] mini) {
+        if (count == n / 2) {
+            int currentDifference = Math.abs(sum - (total - sum));
+            if (currentDifference < mini[0]) {
+                mini[0] = currentDifference;
+                result.get(0).set(0, sum);
+                result.get(1).set(0, total - sum);
+            }
+            return;
+        }
+        if (i == n) {
+            return;
+        }
+        helper(i + 1, count + 1, sum + arr[i], total, n, arr, result, mini);
+        helper(i + 1, count, sum, total, n, arr, result, mini);
+    }
+
+    public static ArrayList<ArrayList<Integer>> minDifference(int n, int[] arr) {
+        int totalSum = 0;
+        for (int i = 0; i < n; i++) {
+            totalSum += arr[i];
+        }
+        
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+        result.add(new ArrayList<>());
+        result.add(new ArrayList<>());
+        result.get(0).add(0);  
+        result.get(1).add(0);
+        
+        int[] mini = new int[]{Integer.MAX_VALUE};
+        helper(0, 0, 0, totalSum, n, arr, result, mini);
+        
+        return result;
+    }
+}
