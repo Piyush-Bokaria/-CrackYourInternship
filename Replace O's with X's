@@ -1,0 +1,46 @@
+//Day 41 of #CrackYourInternship
+class Solution{
+    static int[] dx = new int[] {-1, 1, 0, 0};
+    static int[] dy = new int[] {0, 0, -1, 1};
+    
+    static boolean isValid(int i, int j, int m, int n){
+        return (i >= 0 && j >= 0 && i < m && j < n);
+    }
+    
+    static boolean isBound(int i, int j, int m, int n){
+        return (i == 0 || j == 0 || i == m - 1 || j == n - 1);
+    }
+    
+    static void set(int i, int j, int m, int n, char a[][]){
+        a[i][j] = 'P';
+        for(int d = 0;d < 4;d++){
+            int newi = dx[d] + i;
+            int newj = dy[d] + j;
+            if(isValid(newi, newj, m, n) && a[newi][newj] == 'O'){
+                set(newi, newj, m, n, a);
+            }
+        }
+    }
+    static char[][] fill(int m, int n, char a[][])
+    {
+        // code here
+        for(int i = 0;i < m;i++){
+            for(int j = 0;j < n;j++){
+                if(isBound(i, j, m, n) && a[i][j] == 'O'){
+                    set(i, j, m, n, a);
+                }
+            }
+        }
+        for(int i = 0;i < m;i++){
+            for(int j = 0;j < n;j++){
+                if(a[i][j] == 'O'){
+                    a[i][j] = 'X';
+                }
+                else if(a[i][j] == 'P'){
+                    a[i][j] = 'O';
+                }
+            }
+        }
+        return a;
+    }
+}
