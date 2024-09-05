@@ -1,0 +1,13 @@
+//Day 41 of #CrackYourInternship
+class Solution {
+    public boolean arraySortedOrNot(List<Integer> arr) {
+        // code here
+        int n = arr.size();
+        for(int i = 1;i < n;i++){
+            if(arr.get(i) < arr.get(i - 1)){
+                return false;
+            }
+        }
+        return true;
+    }
+}
