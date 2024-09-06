@@ -1,0 +1,28 @@
+//Day 42 of #CrackYourInternship
+class Solution {
+    Node zigZag(Node head) {
+        // add code here.
+        Node curr = head;
+        boolean greater = false;
+        while(curr.next != null){
+            if(greater == false){
+                if(curr.data > curr.next.data){
+                    int temp = curr.data;
+                    curr.data = curr.next.data;
+                    curr.next.data = temp;
+                }
+                greater = true;
+            }
+            else{
+                if(curr.data < curr.next.data){
+                    int temp = curr.data;
+                    curr.data = curr.next.data;
+                    curr.next.data = temp;
+                }
+                greater = false;
+            }
+            curr = curr.next;
+        }
+        return head;
+    }
+}
