@@ -1,0 +1,52 @@
+//Day 42 of #CrackYourInternship
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode head = new ListNode(-1);
+        ListNode temp = head;   
+        Stack<ListNode> stack1 = new Stack<>();
+        Stack<ListNode> stack2 = new Stack<>();
+        ListNode num1= l1;
+        ListNode num2 = l2;
+        while(num1 != null){
+            stack1.push(num1);
+            num1 = num1.next;
+        }
+        while(num2 != null){
+            stack2.push(num2);
+            num2 = num2.next;
+        }
+        int carry = 0;
+        while(!stack1.isEmpty() && !stack2.isEmpty()){
+            int num = stack1.pop().val + stack2.pop().val + carry;
+            ListNode curr = new ListNode(num % 10);
+            carry = num / 10;
+            curr.next = temp;
+            temp = curr;
+        }
+        while(!stack1.isEmpty()){
+            int num = stack1.pop().val + carry;
+            ListNode curr = new ListNode(num % 10);
+            carry = num / 10;
+            curr.next = temp;
+            temp = curr;
+        }
+        while(!stack2.isEmpty()){
+            int num = stack2.pop().val + carry;
+            ListNode curr = new ListNode(num % 10);
+            carry = num / 10;
+            curr.next = temp;
+            temp = curr;
+        }
+        if(carry > 0){
+            ListNode curr = new ListNode(carry);
+            curr.next = temp;
+            temp = curr;
+        }
+        head = temp;
+        while(temp.next.val != -1){
+            temp = temp.next;
+        }
+        temp.next = null;
+        return head;
+    }
+}
