@@ -1,0 +1,39 @@
+//Day 42 of #CrackYourInternship
+class Solution {
+    Node divide(Node head) {
+        // code here
+        if(head == null || head.next == null){
+            return head;
+        }
+        Node odd = null;
+        Node even = null;
+        Node prev = null;
+        Node curr = head;
+        while(curr != null){
+            if(curr.data % 2 != 0 && odd == null){
+                odd = curr;
+            }
+            else if(curr.data % 2 == 0){
+                if(odd == null){
+                    even = curr;
+                }
+                else{
+                    prev.next = curr.next;
+                    curr.next = odd;
+                    if(even == null){
+                        even = curr;
+                        head = even;
+                    }
+                    else {
+                        even.next = curr;
+                        even = even.next;
+                    }
+                    curr = prev;
+                }
+            }
+            prev = curr;
+            curr = curr.next;
+        }
+        return head;
+    }
+}
