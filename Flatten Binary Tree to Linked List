@@ -1,0 +1,27 @@
+'''Day 43 of #CrackYourInternship'''
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def flatten(self, root: Optional[TreeNode]) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        arr=collections.deque()
+        def traversal(arr,root):
+            if not root:
+                return
+            arr.append(root.val)
+            traversal(arr,root.left)
+            traversal(arr,root.right)
+        traversal(arr,root)
+        if arr:
+            arr.popleft()
+        while arr:
+            root.left=None
+            t=TreeNode(arr.popleft(),None,None)
+            root.right=t
+            root=root.right
