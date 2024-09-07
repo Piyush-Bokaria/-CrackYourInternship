@@ -1,0 +1,21 @@
+//Day 43 of #CrackYourInternship
+class Solution {
+    private static boolean isDeadEndUtil(Node root, int min, int max) {
+        if (root == null) {
+            return false;
+        }
+        
+        if (root.left == null && root.right == null) {
+            if (min == max) {
+                return true;
+            }
+            return false;
+        }
+        
+        return isDeadEndUtil(root.left, min, root.data - 1) || isDeadEndUtil(root.right, root.data + 1, max);
+    }
+
+    public static boolean isDeadEnd(Node root) {
+        return isDeadEndUtil(root, 1, Integer.MAX_VALUE);
+    }
+}
