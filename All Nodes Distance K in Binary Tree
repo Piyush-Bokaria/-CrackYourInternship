@@ -1,0 +1,87 @@
+//Day 43 of #CrackYourInternship
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    List<Pair<Integer, TreeNode>> ancestors;
+    List<Integer> ans;
+
+    public Solution() {
+        ancestors = new ArrayList<>();
+        ans = new ArrayList<>();
+    }
+
+    private boolean findAncestors(TreeNode root, TreeNode target) {
+        if (root == null) {
+            return false;
+        }
+        if (root == target) {
+            ancestors.add(new Pair<>(-1, root));
+            return true;
+        }
+        boolean right = findAncestors(root.right, target);
+        boolean left = findAncestors(root.left, target);
+        
+        if (left) {
+            ancestors.add(new Pair<>(1, root));
+        }
+        if (right) {
+            ancestors.add(new Pair<>(0, root)); 
+        }
+        return right || left;
+    }
+
+    private void findAns(TreeNode root, int k, int depth, int child) {
+        if (root == null) {
+            return;
+        }
+        if (k == depth) {
+            ans.add(root.val);
+            return;
+        }
+
+        if (depth == 0 && child == 1) {
+            findAns(root.right, k, depth + 1, child);
+        } else if (depth == 0 && child == 0) {
+            findAns(root.left, k, depth + 1, child);
+        } else {
+            findAns(root.left, k, depth + 1, child);
+            findAns(root.right, k, depth + 1, child);
+        }
+    }
+
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+        findAncestors(root, target);
+        for (Pair<Integer, TreeNode> ancestor : ancestors) {
+            int child = ancestor.getKey();
+            TreeNode ptr = ancestor.getValue();
+            findAns(ptr, k, 0, child);
+            k--;
+        }
+        return ans;
+    }
+
+    class Pair<K, V> {
+        private K key;
+        private V value;
+
+        public Pair(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
+        }
+    }
+}
