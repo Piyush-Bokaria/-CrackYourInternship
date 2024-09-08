@@ -1,0 +1,24 @@
+//Day 44 of #CrackYourInternship
+class Solution {
+    static int spanningTree(int v, int e, List<List<int[]>> adj) {
+        // Code Here.
+        int mini = 0;
+        boolean[] visited = new boolean[v];
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> (a[1] - b[1]));
+        
+        pq.add(new int[] {0, 0});
+        
+        while(!pq.isEmpty()){
+            int[] temp = pq.remove();
+            
+            if(!visited[temp[0]]){
+                visited[temp[0]] = true;
+                for(int i = 0;i < adj.get(temp[0]).size();i++){
+                    pq.add(adj.get(temp[0]).get(i));
+                }
+                mini += temp[1];
+            }
+        }
+        return mini;
+    }
+}
