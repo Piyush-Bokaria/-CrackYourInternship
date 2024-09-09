@@ -9,7 +9,7 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
-class Solution {
+class Solution{
     public ListNode deleteDuplicates(ListNode head) {
         if(head == null){
             return head;
